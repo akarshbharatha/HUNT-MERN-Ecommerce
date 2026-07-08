@@ -100,15 +100,16 @@ export const loginUser = async (req, res) => {
     }
 
     // Generate JWT
-    const token = jwt.sign(
-      {
-        id: user._id,
-      },
-      "huntsecretkey",
-      {
-        expiresIn: "7d",
-      }
-    );
+// Generate JWT
+const token = jwt.sign(
+  {
+    id: user._id,
+  },
+  process.env.JWT_SECRET,
+  {
+    expiresIn: "7d",
+  }
+);
 
     res.status(200).json({
       success: true,
