@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import dns from 'dns';
 import productRoutes from "./routes/productRoutes.js";
-
+import authRoutes from "./routes/authRoutes.js";
 // Use Google DNS
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
@@ -32,6 +32,7 @@ app.use(
 
 app.use(express.json());
 app.use("/api/products", productRoutes);
+app.use("/api/auth", authRoutes);
 
 // Home route
 app.get('/', (req, res) => {
