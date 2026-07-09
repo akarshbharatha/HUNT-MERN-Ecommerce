@@ -5,6 +5,7 @@ import connectDB from './config/db.js';
 import dns from 'dns';
 import productRoutes from "./routes/productRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import wishlistRoutes from "./routes/wishlistRoutes.js";
 // Use Google DNS
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 
@@ -33,6 +34,7 @@ app.use(
 app.use(express.json());
 app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/wishlist", wishlistRoutes);
 
 // Home route
 app.get('/', (req, res) => {
