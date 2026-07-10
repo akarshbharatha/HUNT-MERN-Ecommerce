@@ -6,20 +6,128 @@ import Product from "../models/Product.js";
 =========================================== */
 export const getProducts = async (req, res) => {
   try {
-    const products = await Product.find().sort({ createdAt: -1 });
+
+    const {
+      search,
+      category,
+      minPrice,
+      maxPrice,
+      sort,
+      page = 1,
+      limit = 10,
+    } = req.query;
+
+    const query = {
+      isActive: true,
+    };
+
+    // Search
+    if (search) {
+      query.$or = [
+        {
+          name: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          description: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+        {
+          brand: {
+            $regex: search,
+            $options: "i",
+          },
+        },
+      ];
+    }
+
+    // Category Filter
+    if (category) {
+      query.category = category;
+    }
+
+    // Price Filter
+    if (minPrice || maxPrice) {
+      query.price = {};
+
+      if (minPrice)
+        query.price.$gte = Number(minPrice);
+
+      if (maxPrice)
+        query.price.$lte = Number(maxPrice);
+    }
+
+    // Sorting
+    let sortOption = {
+      createdAt: -1,
+    };
+
+    switch (sort) {
+
+      case "priceAsc":
+        sortOption = {
+          price: 1,
+        };
+        break;
+
+      case "priceDesc":
+        sortOption = {
+          price: -1,
+        };
+        break;
+
+      case "nameAsc":
+        sortOption = {
+          name: 1,
+        };
+        break;
+
+      case "nameDesc":
+        sortOption = {
+          name: -1,
+        };
+        break;
+
+      case "oldest":
+        sortOption = {
+          createdAt: 1,
+        };
+        break;
+
+      default:
+        sortOption = {
+          createdAt: -1,
+        };
+    }
+
+    const totalProducts = await Product.countDocuments(query);
+
+    const products = await Product.find(query)
+      .sort(sortOption)
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
 
     res.status(200).json({
       success: true,
-      count: products.length,
+      totalProducts,
+      currentPage: Number(page),
+      totalPages: Math.ceil(totalProducts / limit),
       products,
     });
+
   } catch (error) {
+
     console.error(error);
 
     res.status(500).json({
       success: false,
       message: "Failed to fetch products.",
     });
+
   }
 };
 
