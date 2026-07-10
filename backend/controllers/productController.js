@@ -75,17 +75,19 @@ export const createProduct = async (req, res) => {
       stock,
       sizes,
       colors,
-      images,
       featured,
       isActive,
     } = req.body;
 
-    if (!name || !description || !category || price == null || stock == null) {
+    if (!name || !description || !category || !price || !stock) {
       return res.status(400).json({
         success: false,
         message: "Please fill all required fields.",
       });
     }
+
+    const imageUrls =
+      req.files?.map((file) => file.path) || [];
 
     const product = await Product.create({
       name,
@@ -95,9 +97,17 @@ export const createProduct = async (req, res) => {
       price,
       discountPrice,
       stock,
-      sizes,
-      colors,
-      images,
+      sizes: sizes
+        ? Array.isArray(sizes)
+          ? sizes
+          : sizes.split(",")
+        : [],
+      colors: colors
+        ? Array.isArray(colors)
+          ? colors
+          : colors.split(",")
+        : [],
+      images: imageUrls,
       featured,
       isActive,
     });
@@ -107,16 +117,16 @@ export const createProduct = async (req, res) => {
       message: "Product created successfully.",
       product,
     });
+
   } catch (error) {
     console.error(error);
 
     res.status(500).json({
       success: false,
-      message: "Failed to create product.",
+      message: error.message,
     });
   }
 };
-
 /* ===========================================
    UPDATE PRODUCT
 =========================================== */
