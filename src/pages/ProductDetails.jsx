@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
+import { getProductById } from "../services/productService";
 import {
   FiShoppingBag,
   FiHeart,
@@ -30,15 +31,7 @@ function ProductDetails() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/api/products/${id}`
-        );
-
-        const productData = {
-          ...response.data,
-          id: response.data._id,
-        };
-
+        const productData = await getProductById(id);
         setProduct(productData);
       } catch (err) {
         setError(err.response?.data?.message || err.message);

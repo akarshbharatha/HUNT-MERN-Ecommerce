@@ -211,9 +211,15 @@ function Cart() {
 
             </div>
 
-            <button className="w-full h-12 rounded-lg bg-black text-white hover:bg-neutral-800">
+            {/* <button className="w-full h-12 rounded-lg bg-black text-white hover:bg-neutral-800">
               Proceed to Secure Checkout
-            </button>
+            </button> */}
+            <Link
+            to="/checkout"
+            className="w-full h-12 rounded-lg bg-black text-white flex items-center justify-center hover:bg-neutral-800"
+            >
+            Proceed to Secure Checkout
+            </Link>
 
           </div>
 

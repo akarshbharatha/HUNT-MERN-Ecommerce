@@ -19,8 +19,8 @@ export function ProductsProvider({ children }) {
       setLoading(true);
 
       const data = await getProducts();
-
-      setProducts(data);
+      setProducts(Array.isArray(data) ? data : []);
+      // setProducts(data);
       setError("");
     } catch (err) {
       setError(
