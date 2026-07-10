@@ -6,8 +6,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      minlength: 2,
-      maxlength: 50,
     },
 
     email: {
@@ -21,9 +19,31 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minlength: 6,
     },
 
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+
+    emailOTP: {
+      type: String,
+      default: null,
+    },
+
+    otpExpiry: {
+      type: Date,
+      default: null,
+    },
+resetOTP: {
+  type: String,
+  default: null,
+},
+
+resetOTPExpiry: {
+  type: Date,
+  default: null,
+},
     role: {
       type: String,
       enum: ["user", "admin"],
@@ -35,6 +55,4 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose.model("User", userSchema);
-
-export default User;
+export default mongoose.model("User", userSchema);

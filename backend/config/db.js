@@ -1,22 +1,28 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import dns from "node:dns";
 
-/**
- * ESTABLISHES A SECURE ASYNCHRONOUS CONNECTION GATEWAY TO MONGODB
- */
+// Force Google + Cloudflare DNS
+dns.setServers([
+  "8.8.8.8",
+  "1.1.1.1",
+]);
+
 const connectDB = async () => {
   try {
-    // Attempt the connection handshake using our private environmental variable URI
-    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log("Connecting to MongoDB Atlas...");
 
-    console.log(`\n🔋 === HUNT DATA VAULT SECURED ===`);
-    console.log(`MongoDB Connected successfully!`);
-    console.log(`Database Host Hub: ${conn.connection.host}`);
-    console.log(`==================================\n`);
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 10000,
+    });
+
+    console.log("\n🔋 === HUNT DATA VAULT SECURED ===");
+    console.log("MongoDB Connected Successfully!");
+    console.log(`Database Host: ${conn.connection.host}`);
+    console.log("==================================\n");
   } catch (error) {
-    // If the connection drops or fails, capture the error log and shut down gracefully
-    console.error(`\n🚨 DATABASE CONNECTION ERROR: ${error.message}`);
-    console.log('Shutting down server instance due to critical database lock...');
-    process.exit(1); // Force terminates the Node application runtime process completely
+    console.error("\n🚨 DATABASE CONNECTION ERROR");
+    console.error(error);
+    process.exit(1);
   }
 };
 

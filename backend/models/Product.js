@@ -13,9 +13,9 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
 
-    price: {
-      type: Number,
-      required: true,
+    brand: {
+      type: String,
+      default: "HUNT",
     },
 
     category: {
@@ -23,19 +23,48 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
 
-    image: {
-      type: String,
+    price: {
+      type: Number,
       required: true,
     },
 
-    stock: {
+    discountPrice: {
       type: Number,
       default: 0,
     },
 
-    tag: {
-      type: String,
-      default: "",
+    stock: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+
+    sizes: [
+      {
+        type: String,
+      },
+    ],
+
+    colors: [
+      {
+        type: String,
+      },
+    ],
+
+    images: [
+      {
+        type: String,
+      },
+    ],
+
+    featured: {
+      type: Boolean,
+      default: false,
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true,
     },
   },
   {
@@ -43,6 +72,4 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-const Product = mongoose.model("Product", productSchema);
-
-export default Product;
+export default mongoose.model("Product", productSchema);
