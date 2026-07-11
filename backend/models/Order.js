@@ -35,14 +35,38 @@ const orderSchema = new mongoose.Schema(
     ],
 
     shippingAddress: {
-      fullName: String,
-      phone: String,
-      email: String,
-      address: String,
-      city: String,
-      state: String,
-      pincode: String,
-      country: String,
+      fullName: {
+        type: String,
+      },
+
+      phone: {
+        type: String,
+      },
+
+      email: {
+        type: String,
+      },
+
+      address: {
+        type: String,
+      },
+
+      city: {
+        type: String,
+      },
+
+      state: {
+        type: String,
+      },
+
+      pincode: {
+        type: String,
+      },
+
+      country: {
+        type: String,
+        default: "India",
+      },
     },
 
     totalPrice: {
@@ -52,25 +76,53 @@ const orderSchema = new mongoose.Schema(
 
     paymentMethod: {
       type: String,
+      enum: ["COD", "ONLINE"],
       default: "COD",
     },
 
     paymentStatus: {
       type: String,
-      enum: ["Pending", "Paid"],
+      enum: [
+        "Pending",
+        "Paid",
+        "Failed",
+        "Refunded",
+      ],
       default: "Pending",
+    },
+
+    paymentId: {
+      type: String,
+      default: null,
+    },
+
+    razorpayOrderId: {
+      type: String,
+      default: null,
     },
 
     orderStatus: {
       type: String,
       enum: [
         "Processing",
+        "Confirmed",
         "Packed",
         "Shipped",
+        "Out for Delivery",
         "Delivered",
         "Cancelled",
       ],
       default: "Processing",
+    },
+
+    deliveredAt: {
+      type: Date,
+      default: null,
+    },
+
+    cancelledAt: {
+      type: Date,
+      default: null,
     },
   },
   {

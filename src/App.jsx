@@ -15,6 +15,9 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Wishlist from "./pages/Wishlist";
 import MyOrders from "./pages/MyOrders";
+import VerifyEmail from "./pages/VerifyEmail";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 // import OrderDetails from "./pages/OrderDetails";
 // import { OrderDetails } from "./pages/OrderDetails";
 import OrderDetails from "./pages/OrderDetails";
@@ -52,7 +55,19 @@ function App() {
 
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route
+                    path="/verify-email"
+                    element={<VerifyEmail />}
+                    />
+                    <Route
+                    path="/forgot-password"
+                    element={<ForgotPassword />}
+                    />
 
+                    <Route
+                    path="/reset-password"
+                    element={<ResetPassword />}
+                    />
                     <Route
                       path="/profile"
                       element={

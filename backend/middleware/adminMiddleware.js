@@ -1,6 +1,17 @@
-export const adminOnly = (req, res, next) => {
+import User from "../models/User.js";
+
+export const adminOnly = async (req, res, next) => {
   try {
-    if (req.user.role !== "admin") {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found.",
+      });
+    }
+
+    if (user.role !== "admin") {
       return res.status(403).json({
         success: false,
         message: "Admin access required.",
@@ -8,7 +19,6 @@ export const adminOnly = (req, res, next) => {
     }
 
     next();
-
   } catch (error) {
     return res.status(500).json({
       success: false,

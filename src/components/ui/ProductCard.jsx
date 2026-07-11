@@ -52,10 +52,15 @@ function ProductCard({ product }) {
 
       <div className="relative aspect-square overflow-hidden rounded-lg bg-neutral-100">
 
-        <img
+        {/* <img
           src={product.image}
           alt={product.name}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        /> */}
+        <img
+        src={product.images?.[0] || "/placeholder.png"}
+        alt={product.name}
+        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
 
         <button
@@ -69,10 +74,16 @@ function ProductCard({ product }) {
           )}
         </button>
 
-        {product.tag && (
+        {/* {product.tag && (
           <span className="absolute top-3 left-3 rounded bg-black text-white px-2 py-1 text-xs">
             {product.tag}
           </span>
+        )} */}
+
+        {product.featured && (
+        <span className="absolute top-3 left-3 rounded bg-black text-white px-2 py-1 text-xs">
+        Featured
+        </span>
         )}
 
       </div>
@@ -91,9 +102,27 @@ function ProductCard({ product }) {
 
         <div className="mt-4 flex items-center justify-between">
 
-          <span className="font-bold text-lg">
+          {/* <span className="font-bold text-lg">
             ₹{product.price}
-          </span>
+          </span> */}
+
+          <div className="flex items-center gap-2">
+         {product.discountPrice > 0 ? (
+          <>
+        <span className="font-bold text-lg text-red-600">
+        ₹{product.discountPrice}
+        </span>
+
+        <span className="text-sm text-gray-500 line-through">
+        ₹{product.price}
+        </span>
+      </>
+      ) : (
+      <span className="font-bold text-lg">
+      ₹{product.price}
+      </span>
+      )}
+      </div>
 
           <Link
             to={`/product/${product._id}`}

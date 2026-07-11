@@ -40,12 +40,41 @@ export const registerUser = async (req, res) => {
 
     const existingUser = await User.findOne({ email });
 
-    if (existingUser) {
-      return res.status(400).json({
-        success: false,
-        message: "User already exists",
-      });
-    }
+if (existingUser) {
+
+  // Already verified → don't allow registration again
+  if (existingUser.isVerified) {
+    return res.status(400).json({
+      success: false,
+      message: "User already exists. Please login.",
+    });
+  }
+
+  // Not verified → generate a fresh OTP
+  const otp = generateOTP();
+
+  const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
+
+  existingUser.name = name;
+  existingUser.password = await bcrypt.hash(password, 10);
+  existingUser.emailOTP = otp;
+  existingUser.otpExpiry = otpExpiry;
+
+  await existingUser.save();
+
+  await sendEmail({
+    to: email,
+    subject: "Verify your HUNT Account",
+    html: verificationEmailTemplate(name, otp),
+  });
+
+  return res.status(200).json({
+    success: true,
+    message:
+      "Your account already exists but is not verified. A new OTP has been sent to your email.",
+    email,
+  });
+}
 
     const hashedPassword = await bcrypt.hash(password, 10);
 

@@ -90,7 +90,8 @@ function ProductDetails() {
 
         <div className="overflow-hidden rounded-2xl bg-neutral-100">
           <img
-            src={product.image}
+            // src={product.image}
+            src={product.images?.[0] || "/placeholder.png"}
             alt={product.name}
             className="w-full h-full object-cover"
           />

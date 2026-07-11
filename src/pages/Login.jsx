@@ -86,6 +86,16 @@ function Login() {
             className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-black"
           />
 
+          {/* Forgot Password Link */}
+          <div className="text-right">
+            <Link
+              to="/forgot-password"
+              className="text-sm text-black hover:underline"
+            >
+              Forgot Password?
+            </Link>
+          </div>
+
           <button
             type="submit"
             disabled={loading}

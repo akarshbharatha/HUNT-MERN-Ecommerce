@@ -29,11 +29,20 @@ function Register() {
     setLoading(true);
 
     try {
+      // await register(formData);
+
+      // alert("Registration Successful!");
+
+      // navigate("/login");
       await register(formData);
 
-      alert("Registration Successful!");
+      alert("OTP sent to your email.");
 
-      navigate("/login");
+      navigate("/verify-email", {
+      state: {
+      email: formData.email,
+      },
+      });
     } catch (err) {
       setError(
         err.response?.data?.message || "Registration Failed"

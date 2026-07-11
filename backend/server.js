@@ -11,7 +11,7 @@ import authRoutes from "./routes/authRoutes.js";
 import wishlistRoutes from "./routes/wishlistRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import addressRoutes from "./routes/addressRoutes.js";
-
+import cartRoutes from "./routes/cartRoutes.js";
 // Force Node.js to use public DNS servers
 dns.setServers([
   "8.8.8.8",
@@ -50,7 +50,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/address", addressRoutes);
-
+app.use("/api/cart", cartRoutes);
 // Home Route
 app.get("/", (req, res) => {
   res.send("HUNT Backend API is running 🚀");
